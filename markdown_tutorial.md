@@ -94,3 +94,6 @@ Content column 1 | Content column 2
 :spider:
 
 
+## STRIKETHROUGH
+
+~text~
