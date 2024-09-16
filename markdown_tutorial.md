@@ -39,3 +39,9 @@ Ordered
 3. Item 3
 	* Item 3a
 	* Item 3b
+
+## IMAGES
+
+![Snail Photo](https://www.exoticsguide.org/ilyanassa_obsoleta)
+
+Format: \![Alt text](url)
