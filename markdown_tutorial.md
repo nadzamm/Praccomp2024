@@ -42,6 +42,6 @@ Ordered
 
 ## IMAGES
 
-![Snail Photo](https://www.exoticsguide.org/ilyanassa_obsoleta)
+![Snail Photo](https://objects.liquidweb.services/images/202111/wayne_longbottom_inat_1637108224-61950d5a608e5.jpg)
 
 Format: \![Alt text](url)
