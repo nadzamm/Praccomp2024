@@ -1,0 +1,2055 @@
+# BIOL 4800/6220 Fall 2024 R Tutorial
+
+## Practical Computing Fall 2024
+
+```{r}
+setwd("~/praccomp2024/Praccomp2024/")
+```
+
+### R Basics
+
+#### Introduction
+
+* R as a calculator
+
+```{r}
+1 + 100
+```
+```{r}
+2^3
+```
+```{r}
+7/2
+```
+```{r}
+2*3
+```
+```{r}
+3+5*2
+```
+
+```{r}
+(3+5)*2
+```
+
+```{r}
+2e3
+```
+```{r}
+2/10000
+```
+```{r}
+log(1)
+```
+```{r}
+exp(1)
+```
+
+* Boolean Conditionals
+
+```{r}
+1 == 1
+```
+```{r}
+1 == 2
+```
+
+```{r}
+2 > 1
+```
+```{r}
+2 <= 1
+```
+```{r}
+1 != 2
+```
+
+* Variables
+
+```{r}
+x <- 10
+x
+```
+
+```{r}
+x + x
+```
+```{r}
+y <- x^x
+```
+```{r}
+y
+```
+
+* Vectorization
+
+```{r}
+1:5
+```
+
+```{r}
+2^(1:5)
+```
+
+```{r}
+v <- 1:5
+```
+
+```{r}
+2^v
+```
+
+```{r}
+log(v)
+```
+
+* Environment
+
+```{r}
+ls()
+```
+```{r}
+rm(condition)
+```
+```{r}
+rm(v)
+```
+
+
+#### Package Management
+```{r}
+#installed.packages()
+```
+
+```{r}
+#installed.packages()
+```
+
+```{r}
+
+```
+```{r}
+#install.packages("vegan", dependencies = TRUE)
+#library(vegan)
+```
+```{r}
+#if (!require("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+
+#BiocManager::install("DESeq2")
+```
+```{r}
+#library(DESeq2)
+```
+
+#### Getting Help
+
+**Search the Web**
+
+```{r}
+?plot
+```
+
+```{r}
+help(plot)
+```
+
+```{r}
+vignette("FAQ-vegan")
+```
+```{r}
+citation("vegan")
+```
+
+#### Data and their formats
+
+```{r}
+cats <- data.frame(coat = c("calico", "black", "tabby"),
+                   weight = c(2.1, 5, 3.2),
+                   likes.string = c(TRUE, FALSE, TRUE))
+```
+
+```{r}
+cats
+```
+
+```{r}
+getwd()
+```
+
+```{r}
+write.csv(cats, "cats.csv")
+```
+
+```{r}
+cats <- read.csv("cats.csv", header = TRUE, row.names = 1)
+```
+
+```{r}
+cats
+```
+
+```{r}
+cats$weight
+```
+
+```{r}
+cats[, 2]
+```
+
+```{r}
+cats[, "weight"]
+```
+
+```{r}
+cats[,2:3]
+```
+
+```{r}
+cats[c(1,3),c(2:3:1)]
+```
+```{r}
+(cats.log.weight <- (cats$weight))
+```
+
+```{r}
+cbind(cats, cats.log.weight)
+```
+
+```{r}
+(cats2 <- cbind(cats, cats.log.weight))
+```
+
+```{r}
+cats
+```
+
+```{r}
+paste("My cat is ", cats$coat, ", and it weighs ", cats$weight, " kg.", sep = "")
+```
+###### Data Types
+
+```{r}
+typeof(cats)
+```
+```{r}
+class(cats)
+```
+```{r}
+typeof(cats$coat)
+typeof(cats$weight)
+typeof(cats$likes.string)
+```
+```{r}
+typeof(1i)
+```
+```{r}
+likes.pop <- c(1,0,1,1,0)
+```
+```{r}
+typeof(likes.pop)
+```
+```{r}
+as.logical(likes.pop)
+```
+```{r}
+typeof(likes.pop)
+```
+```{r}
+names <- c("Iggy","Bitey","Garfield")
+
+cats$names <- names
+```
+
+```{r}
+cats
+```
+##### the original datasheet has now been changed
+
+```{r}
+(names2 <- c(names, "Spike"))
+```
+
+```{r}
+(names3 <- c("Fluffy", names2))
+```
+
+```{r}
+1:10
+```
+```{r}
+(z <- seq(0,10, by=2))
+```
+
+```{r}
+typeof(z)
+```
+
+```{r}
+class(z)
+```
+
+```{r}
+head(z)
+```
+
+```{r}
+tail(z, n=40)
+```
+```{r}
+sort(z, decreasing = TRUE)
+```
+```{r}
+unique(z)
+```
+
+
+###### Data Frames
+
+```{r}
+cats
+```
+
+```{r}
+cats$weight
+
+typeof(cats$weight)
+```
+```{r}
+str(cats$weight)
+```
+```{r}
+coats <- c("tabby", "tortoiseshell", "tortoiseshell", "black", "tabby")
+```
+```{r}
+(categories <- factor(coats))
+```
+```{r}
+class(categories)
+```
+```{r}
+str(categories)
+```
+
+##### Lists
+
+```{r}
+(list.example <- list(title="Numbers", numbers = seq(1,20,by=5), data=TRUE))
+```
+```{r}
+list.example$title
+```
+```{r}
+data.frame(list.example)
+```
+##### Matricies
+
+```{r}
+(matrix.example <- matrix(0, nrow = 3, ncol = 5))
+```
+```{r}
+class(matrix.example)
+```
+```{r}
+typeof(matrix.example)
+```
+```{r}
+dim(matrix.example)
+```
+```{r}
+nrow(matrix.example)
+ncol(matrix.example)
+```
+```{r}
+data.frame(matrix.example)
+```
+##### Subsetting
+
+```{r}
+(p <- c(2.3,6.9,4.0,23,1))
+```
+```{r}
+(names (p) <- c("a","b","c","d","e"))
+p
+typeof(p)
+class(p)
+```
+```{r}
+p[1]
+p[1:3]
+p[2:4]
+```
+```{r}
+p[c(1,5)]
+```
+```{r}
+p[c(1,1,1,3,5,5)]
+```
+```{r}
+p[6]
+```
+```{r}
+(q <- p[-3])
+```
+```{r}
+(p[-(2:4)])
+```
+```{r}
+p[c("a", "e")]
+```
+```{r}
+p[c(T,F,T,F,T)]
+```
+
+##### Factors
+```{r}
+(f <- factor(c("a","b","c","d","f")))
+```
+```{r}
+f[f == "a"]
+```
+```{r}
+f[1:3]
+```
+```{r}
+(f2 <- factor(c("a","a","b","c","c")))
+```
+```{r}
+f2[f2 == "a"]
+```
+```{r}
+f2[f2 %in% c("a","c")]
+```
+
+##### Matricies Revisited
+
+```{r}
+set.seed(4398)
+(m <- matrix(rnorm(6,4,0.3), nrow = 6, ncol = 4))
+```
+```{r}
+hist(rnorm(10000,4,0.3))
+```
+```{r}
+m[3:4, c(3,1)]
+```
+##### Lists Revisited
+
+```{r}
+(xlist <- list(a="BIOL48006220", b= rnorm(16,75,10), data="Grade"))
+```
+##### Data Frames Revisited
+
+```{r}
+(gp <- read.csv("data/forest_area_sq_km.csv"))
+```
+```{r}
+head(gp, n=10)
+```
+
+```{r}
+head(gp[4], n=3L)
+```
+```{r}
+nrow(gp)
+```
+```{r}
+head(gp[{"country"}], 10L)
+```
+```{r}
+gp[c(1,3), c(1,5:10)]
+```
+
+```{r}
+gp[ which(gp$X1989 <= 100 & gp$X2019 >= 100), ]
+```
+##### Conditionals and Flow
+```{r}
+
+```
+```{r}
+n <- 11
+
+if (n < 10) {
+  print("n is less than 10.")
+} else if (n > 10) {
+  print("n is greater than 10."
+  )
+} else {
+  print("n is equal to 10.")
+}
+```
+
+```{r}
+for (n in seq(0,20)) {
+  if (n < 10) {
+    print("n is less than 10.")
+    } else if (n > 10) {
+    print("n is greater than 10."
+    )
+    } else {
+    print("n is equal to 10.")
+}
+}
+```
+```{r}
+for (n in rnorm(20,10,3)) {
+  if (n < 10) {
+    print(paste0(n," is less than 10."))
+    } else if (n > 10) {
+    print(paste0(n," is greater than 10."
+    ))
+    } else {
+    print(paste0(n," is equal to 10."))
+}
+}
+```
+```{r}
+g <- 0
+
+while (g <= 0) {
+  print(paste(g,"is less than or equal to 10."))  
+  g <- g+1
+}
+```
+
+#### Plotting and Figures
+
+```{r}
+#install.packages("ggplot2", dependencies=TRUE)
+
+gap <- read.csv("~/praccomp2024/Praccomp2024/data/gapminder_all.csv")
+```
+
+```{r}
+library(ggplot2)
+```
+```{r}
+ggplot(data=gap, mapping = aes(y=gdpPercap_1982, x=pop_1982)) + 
+  geom_point()
+```
+```{r}
+gapminder <- read.csv("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/main/episodes/data/gapminder_data.csv")
+
+gapminder
+```
+```{r}
+ggplot(data = gapminder, mapping = aes(x=gdpPercap, y=lifeExp)) + geom_point(aes(color=continent))
+```
+```{r}
+ggplot(data = gapminder, mapping = aes(x=gdpPercap, y=lifeExp)) + geom_point(aes(color=continent), alpha=0.25) + scale_x_log10() + geom_smooth(method = lm, color="black", fill="grey") + theme_classic()
+```
+
+```{r}
+ggplot(data=gapminder, mapping = aes(x=year, y=lifeExp, by=country)) + geom_line(mapping = aes(color=continent)) + geom_point() + theme_classic()
+```
+##### Plotting Continued
+
+```{r}
+```
+
+
+```{r}
+ggplot(data = gapminder, mapping = aes(x=gdpPercap, y=lifeExp)) + geom_point(aes(color="darkblue"), alpha=0.25) + scale_x_log10() + geom_smooth(method = lm, color="deeppink", fill="chartreuse") + theme_classic()
+```
+```{r}
+ggplot(data = gapminder, mapping = aes(x=gdpPercap, y=lifeExp)) + 
+  geom_point(color="darkblue", alpha=0.25, size=1) + 
+  geom_smooth(method = loess, color="deeppink", fill="chartreuse", size=0.5) + 
+  theme_classic()
+```
+```{r}
+unique(gapminder$continent)
+```
+
+```{r}
+asia <- gapminder[gapminder$continent == "Asia", ]
+```
+```{r}
+ggplot(data = asia, mapping = aes(x=year, y=lifeExp)) +
+  labs(
+    x = "Year", y = "Life Expectancy (years)",
+    title = "Life Expectancy over time in Asian Countries"
+  ) +
+  geom_line(color="red") +
+  facet_wrap( ~ country)
+```
+```{r}
+ggsave("data/AsiaLifeExp.png")
+```
+```{r}
+ggsave("data/AsiaLifeExp2.png")
+```
+
+```{r}
+ggplot(data = asia, mapping = aes(x=year, y=lifeExp)) +
+  labs(
+    x = "Year", y = "Life Expectancy (years)",
+    title = "Life Expectancy over time in Asian Countries"
+  ) +
+  geom_line(color="red") +
+  facet_wrap( ~ country) +
+  theme(axis.text.x = element_text(angle = 90))
+```
+```{r}
+ggsave("data/AsiaLifeExp3.png")
+```
+```{r}
+write.csv(asia, file = "data/asia.csv")
+write.table(gapminder, file = "data/gapminder_web_20240930.csv", sep = ",")
+```
+
+###### Fancy Plots
+```{r}
+#install.packages(c("ggridges", "viridis", "hrbrthemes"), dependencies = TRUE))
+```
+```{r}
+library(ggridges)
+library(viridis)
+library(hrbrthemes)
+```
+```{r}
+#install.packages("viridisLite")
+```
+```{r}
+library(viridisLite)
+```
+
+```{r}
+ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`, fill = stat(x)))+
+  labs(
+    title = "Temperature in Lincoln, NE in 2016"
+  ) +
+  geom_density_ridges_gradient(scales = 3, rel_min_height = 0.01) +
+  scale_fill_viridis_c(name = "Temp. [F]", option = "C") +
+  theme_ipsum()
+```
+```{r}
+#install.packages(c("ggstatsplot", "tidyverse", "palmerpenguins"))
+```
+```{r}
+library(tidyverse)
+```
+```{r}
+data("penguins", package = "palmerpenguins")
+penguins
+```
+```{r}
+(penguins2 <- drop_na(penguins))
+```
+
+```{r}
+ggplot(penguins2, aes(x = `bill_length_mm`, y = `bill_depth_mm`)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+```{r}
+ggplot(penguins2, aes(x = `bill_length_mm`, y = `bill_depth_mm`, color = `species`)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+```{r}
+#install.packages("rlang", dependencies = TRUE)
+#install.packages("rstantools")
+
+library(ggstatsplot)
+
+plt <- ggbetweenstats(
+  data = penguins2, 
+  x = species,
+  y = bill_length_mm
+)
+
+plt
+```
+##### Midterm Practice
+
+```{r}
+e <- c(1,2,3,4,5)
+e
+```
+```{r}
+as.data.frame(e)
+```
+```{r}
+as.numeric(e)
+```
+```{r}
+summary(e)
+```
+
+
+```{r}
+zoo <- 0
+while (zoo <= 0) {
+  print(paste(zoo,"is less than or equal to 10."))
+  zoo <-zoo+1
+}
+```
+
+##### Fancy Plots Continued
+
+```{r}
+library(ggridges)
+library(ggplot2)
+library(viridis)
+#install.packages("viridisLite")
+
+spider_data <- read.csv("data/spider_data_20221101.csv")
+spider_data
+```
+```{r}
+library(tidyverse)
+
+spider_data %>%
+  filter(!is.na(family)) %>%
+  mutate(family = fct_rev(fct_infreq(family))) %>%
+  ggplot(aes(x = `year`, y = `family`, color = `family`, fill = `family`)) + geom_density_ridges(alpha = 0.5, stat = "binline", bin = 25) +
+  theme(
+    legend.position = "none",
+    strip.text.x = element_text(size = 5)
+  )
+  
+```
+
+```{r}
+head(penguins2)
+```
+```{r}
+penguins3 <- with(penguins2, cbind(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g))
+```
+
+```{r}
+penguin_pca <- princomp(penguins3)
+summary(penguin_pca)
+```
+```{r}
+loadings(penguin_pca)
+```
+```{r}
+biplot(penguin_pca)
+```
+```{r}
+#install.packages("devtools", dependencies=T)
+#install.packages("fastmap", dependencies=T)
+library(fastmap)
+library(devtools)
+
+#install_github("vqv/ggbiplot", force = T)
+library(ggbiplot)
+
+ggbiplot(penguin_pca, 
+         groups = penguins2$species, ellipse = TRUE, scale. = ) +
+  scale_color_discrete(name ="")
+```
+
+```{r}
+# Get data:
+#install.packages("gapminder", dependencies = T)
+#install.packages("gganimate", dependencies = T)
+library(gapminder)
+ 
+# Charge libraries:
+library(ggplot2)
+library(gganimate)
+#install.packages("gifski", dependencies = T)
+#install.packages("av", dependencies = T)
+library(gifski)
+ 
+# Make a ggplot, but add frame=year: one image per year
+g <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent)) +
+  geom_point() +
+  scale_x_log10() +
+  theme_bw() +
+#gganimate specific bits:
+  labs(title = 'Year: {frame_time}', x = 'GDP per capita', y = 'life expectancy') +
+  transition_time(year) +
+  ease_aes('linear')
+
+print(g)
+  
+# Save at gif:
+#anim_save(filename = "data/271-ggplot2-animated-gif-chart-with-gganimate1.gif", animation = g)
+```
+
+### Statistics
+```{r}
+rand <- rnorm(50, 30, 8)
+rand
+```
+```{r}
+sum(rand)
+```
+
+```{r}
+sum(rand)/length(rand)
+```
+```{r}
+mean(rand)
+```
+```{r}
+sort(rand)
+```
+```{r}
+min(rand)
+max(rand)
+```
+```{r}
+cumsum(rand)
+```
+```{r}
+diff(rand)
+```
+```{r}
+sqrt(rand)
+```
+```{r}
+log(rand)
+```
+```{r}
+#things <- scan()
+```
+
+```{r}
+things
+```
+
+#### Analyses
+
+##### Univariate Statistics
+
+1. Categorical Data
+  - Bar Plots
+```{r}
+beer <- c(3,4,1,1,3,4,3,3,1,3,2,1,2,1,2,3,2,3,1,1,1,1,4,3,1)
+length(beer)
+```
+```{r}
+barplot(beer)
+```
+
+```{r}
+barplot(table(beer))
+```
+
+```{r}
+table(beer)
+```
+```{r}
+barplot(table(beer), xlab = "Beer", ylab = "Frequency", col = "blue")
+```
+
+```{r}
+barplot(table(beer)/length(beer), xlab = "Beer", ylab = "Frequency", col = "blue")
+```
+
+```{r}
+pie(table(beer), main = "Beer preference by students (n=25)")
+```
+2. Numerical Data
+```{r}
+rand
+stem(rand)
+```
+```{r}
+stripchart(rand)
+```
+3. Measures of Center
+```{r}
+mean(rand)
+```
+```{r}
+median(rand)
+```
+Mode
+```{r}
+which(table(rand) == max(table(rand)))
+```
+4. Variation
+  - Range
+```{r}
+range(rand)
+```
+  - Variance
+```{r}
+var(rand)
+```
+  - Standard Deviation
+```{r}
+sd(rand)
+```
+  - Interquartile Ranges IQR
+```{r}
+IQR(rand)
+```
+  - z-scores
+```{r}
+scale(rand)
+```
+  - summary command - is basically a box plot
+```{r}
+summary(rand)
+```
+5. Plots
+  - Histograms
+```{r}
+hist(rand)
+```
+
+```{r}
+hist(rand, breaks = 15, probability = TRUE)
+```
+  - Box Plots
+```{r}
+boxplot(rand)
+```
+  - Violin Plot
+```{r}
+#install.packages("vioplot")
+#install.packages("zoo")
+library(vioplot)
+library(zoo)
+
+vioplot(rand, col = "blue")
+```
+```{r}
+vioplot(gapminder$lifeExp~gapminder$continent, col = "salmon")
+```
+##### Bivariate and Multivariate Statistics
+  - Plotting and Regression
+    - Box Plotting
+```{r}
+boxplot(gapminder$lifeExp~gapminder$continent, col = "darkorchid4")
+```
+
+```{r}
+vioplot(gapminder$lifeExp~gapminder$continent, col = "salmon")
+```
+```{r}
+(spid.gen <- read.csv("data/spider_genitalia.csv", header = TRUE))
+```
+
+```{r}
+vioplot(spid.gen$left.bulb~spid.gen$habitat, col = "turquoise")
+```
+```{r}
+vioplot(spid.gen$left.bulb/spid.gen$carapace.length ~ spid.gen$habitat, col = "darkturquoise")
+```
+```{r}
+plot(spid.gen$left.bulb ~ spid.gen$right.bulb, col = "purple")
+bulb.reg <- lm(spid.gen$left.bulb ~ spid.gen$right.bulb)
+abline(bulb.reg)
+```
+```{r}
+summary(bulb.reg)
+```
+```{r}
+sqrt(0.5115)
+```
+```{r}
+summary(rand)
+
+t.test(rand, mu = 30)
+```
+
+```{r}
+cor(spid.gen$left.bulb, spid.gen$right.bulb, method = "pearson")
+```
+
+```{r}
+t.test(spid.gen$left.bulb/spid.gen$carapace.length ~ spid.gen$habitat)
+```
+```{r}
+ wilcox.test(spid.gen$left.bulb/spid.gen$carapace.length ~ spid.gen$habitat)
+```
+```{r}
+ks.test(rand, "pnorm")
+```
+```{r}
+shapiro.test(rand)
+```
+```{r}
+qqnorm(rand, pch=16, col="red")
+qqline(rand, lty=2, col="darkblue")
+```
+This is a test of normality represented by a qqplot.
+
+    -ANOVA
+```{r}
+summary(lm(spid.gen$left.bulb/spid.gen$carapace.length ~ spid.gen$habitat))
+```
+  -ANOVA pt 2
+```{r}
+summary(aov(spid.gen$left.bulb/spid.gen$carapace.length ~ spid.gen$habitat))
+```
+A two-sample t-test would give you the same thing; a two-sample t-test is a special version of an ANOVA.
+  
+```{r}
+habitat <- c("A", "A", "A", "A", "A", "B", "B", "B", "B", "B", "C", "C", "C", "C", "C")
+
+parload <- c(10, 12, 8, 11, 14, 14, 16, 10, 9, 12, 18, 19, 20, 21, 22)
+
+parhab <- cbind(habitat, parload)
+
+parhab <- data.frame(parhab)
+
+parhab$habitat <- as.factor(parhab$habitat)
+parhab$parload <- as.numeric(parhab$parload)
+
+parhab
+```
+```{r}
+parhab.aov <- aov(parhab$parload ~ parhab$habitat)
+summary(parhab.aov)
+```
+To to a post-hoc test that is most common, we do the Tukey-HSD. This test helps specify which variables are significantly different or not from one another.
+```{r}
+(parhab.tukey <- TukeyHSD(parhab.aov))
+```
+There is a significant difference between C and A and C and B, but not B and A. This is supported by the p value being greater than 0.05 when comparing B and A.
+
+```{r}
+library(ggstatsplot)
+ggbetweenstats(parhab, x = habitat, y = parload)
+```
+Bonferroni correction is probability of 0.05/2 = 0.025. This is to decrease the likelihood of producing false positives, aka incorrect p-values, when testing a hypothesis. 
+
+```{r}
+(pvals <- c(0.05, 0.005, 0.0005, 0.00005, 0.000005))
+
+p.adjust(pvals, method = "bonferroni")
+p.adjust(pvals, method = "fdr")
+```
+FDR corrections do not penalize the data as much as bonferroni. When running an ANOVA, and you get 5 p-values, you should do a false discovery reaction or fdr to decrease production of false values.
+
+```{r}
+gapminder.2007 <- gapminder[which(gapminder$year == 2007), ]
+
+gapminder.2007.pop.gdpPercap.lifeExp.continent <- lm(gapminder.2007$pop ~ 
+    gapminder.2007$gdpPercap + gapminder.2007$lifeExp + gapminder.2007$continent)
+
+summary(gapminder.2007.pop.gdpPercap.lifeExp.continent)
+```
+Continent of Asia seems to matter, having a lot of people living on it. gdpPercap and lifeExp do not seem to be significant. 
+
+```{r}
+#install.packages("MuMIn", dependencies = TRUE)
+library(MuMIn)
+
+#Example from Burnham and Anderson (2002), page 100:
+#   prevent fitting sub-models to different datasets
+
+oop <- options(na.action = "na.fail")
+dd <- dredge(gapminder.2007.pop.gdpPercap.lifeExp.continent)
+subset(dd, delta < 2)
+```
+2 and 4 are models considered to be the best. 
+
+```{r}
+# Visualize the model selection table:
+if(require(graphics)) {
+  par(mar = c(3,5,6,4))
+  plot(dd, labAsExpr = TRUE)
+}
+```
+Dredge takes a complicated model and strips it down to its basics and creates all possible models with a threshold. 
+Model 2 is just continent and 4 is a combo of continent and gdpPercap.
+
+```{r}
+# Model average models with delta AICc <2 
+model.avg(dd, subset = delta < 2)
+
+# or as a 95% confidence set:
+model.avg(dd, subset = cumsum(weight) <= .95) # get averaged coefficients
+
+# 'Best' model
+summary(get.models(dd, 1)[[1]])
+```
+Best model was continent plus 1 aka randomness. Continent was the main variable driving the data and its differences with specifics towards Asia. 
+
+##### Geospatial Mapping
+```{r}
+#install.packages("maps", dependencies = T)
+
+library(maps)
+#install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", "ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", "rfbif", "terra", "geodata", "sdmpredictors", "stringr", "stars", "elevatr", "tigris", "data.table"))
+
+#devtools::install_github("yutannihilation/ggsflabel", force = TRUE)
+library(ggplot2)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(rgbif)
+library(terra)
+library(geodata)
+library(sdmpredictors)
+library(stringr)
+library(raster)
+library(ggspatial)
+library(stars)
+library(elevatr)
+library(tigris)
+library(ggsflabel)
+library(data.table)
+```
+
+```{r}
+geom_relief <- function(mapping = NULL, data = NULL,
+                        stat = "identity", position = "identity",
+                        ...,
+                        raster = TRUE,
+                        interpolate = TRUE,
+                        na.rm = FALSE,
+                        show.legend = NA,
+                        inherit.aes = TRUE) {
+   ggplot2::layer(
+      data = data,
+      mapping = mapping,
+      stat = stat,
+      geom = GeomRelief,
+      position = position,
+      show.legend = show.legend,
+      inherit.aes = inherit.aes,
+      params = list(
+         raster = raster,
+         interpolate = interpolate,
+         na.rm = na.rm,
+         ...
+      )
+   )
+}
+
+GeomRelief <- ggplot2::ggproto("GeomRelief", GeomTile,
+  required_aes = c("x", "y", "z"),
+  default_aes = ggplot2::aes(color = NA, fill = "grey35", size = 0.5, linetype = 1,
+                             alpha = NA, light = "white", dark = "gray20", sun.angle = 60),
+  draw_panel = function(data, panel_scales, coord, raster, interpolate) {
+     if (!coord$is_linear()) {
+        stop("non lineal coordinates are not implemented in GeomRelief", call. = FALSE)
+     } else {
+        coords <- as.data.table(coord$transform(data, panel_scales))
+        
+        # This is the only part that's actually new. The rest is essentially 
+        # copy-pasted from geom_raster and geom_tile
+        coords[, sun.angle := (sun.angle + 90)*pi/180]
+        coords[, dx := .derv(z, x), by = y]
+        coords[, dy := .derv(z, y), by = x]
+        coords[, shade := (cos(atan2(-dy, -dx) - sun.angle) + 1)/2]
+        coords[is.na(shade), shade := 0]
+        coords[, fill := .rgb2hex(colorRamp(c(dark, light), space = "Lab")(shade)),
+               by = .(dark, light)]
+        
+        # From geom_raster and geom_tile
+        if (raster == TRUE){
+           if (!inherits(coord, "CoordCartesian")) {
+              stop("geom_raster only works with Cartesian coordinates", call. = FALSE)
+           }
+           # Convert vector of data to raster
+           x_pos <- as.integer((coords$x - min(coords$x)) / resolution(coords$x, FALSE))
+           y_pos <- as.integer((coords$y - min(coords$y)) / resolution(coords$y, FALSE))
+           
+           nrow <- max(y_pos) + 1
+           ncol <- max(x_pos) + 1
+           
+           raster <- matrix(NA_character_, nrow = nrow, ncol = ncol)
+           raster[cbind(nrow - y_pos, x_pos + 1)] <- alpha(coords$fill, coords$alpha)
+           
+           # Figure out dimensions of raster on plot
+           x_rng <- c(min(coords$xmin, na.rm = TRUE), max(coords$xmax, na.rm = TRUE))
+           y_rng <- c(min(coords$ymin, na.rm = TRUE), max(coords$ymax, na.rm = TRUE))
+           
+           grid::rasterGrob(raster,
+                            x = mean(x_rng), y = mean(y_rng),
+                            width = diff(x_rng), height = diff(y_rng),
+                            default.units = "native", interpolate = interpolate
+           )
+           
+        } else {
+           ggplot2:::ggname("geom_rect", grid::rectGrob(
+              coords$xmin, coords$ymax,
+              width = coords$xmax - coords$xmin,
+              height = coords$ymax - coords$ymin,
+              default.units = "native",
+              just = c("left", "top"),
+              gp = grid::gpar(
+                 col = coords$fill,
+                 fill = alpha(coords$fill, coords$alpha),
+                 lwd = coords$size * .pt,
+                 lty = coords$linetype,
+                 lineend = "butt"
+              )
+           ))
+           
+        }
+     }
+  }
+)
+
+rect_to_poly <- function(xmin, xmax, ymin, ymax) {
+   data.frame(
+      y = c(ymax, ymax, ymin, ymin, ymax),
+      x = c(xmin, xmax, xmax, xmin, xmin)
+   )
+}
+
+.rgb2hex <- function(array) {
+   rgb(array[, 1], array[, 2], array[, 3], maxColorValue = 255)
+}
+
+
+.derv <- function(x, y, order = 1, cyclical = FALSE, fill = FALSE) {
+   N <- length(x)
+   d <- y[2] - y[1]
+   if (order >= 3) {
+      dxdy <- .derv(.derv(x, y, order = 2, cyclical = cyclical, fill = fill),
+                    y, order = order - 2, cyclical = cyclical, fill = fill)
+   } else {
+      if (order == 1) {
+         dxdy <- (x[c(2:N, 1)] - x[c(N, 1:(N-1))])/(2*d)
+      } else if (order == 2) {
+         dxdy <- (x[c(2:N, 1)] + x[c(N, 1:(N-1))] - 2*x)/d^2
+      }
+      if (!cyclical) {
+         if (!fill) {
+            dxdy[c(1, N)] <- NA
+         }
+         if (fill) {
+            dxdy[1] <- (-11/6*x[1] + 3*x[2] - 3/2*x[3] + 1/3*x[4])/d
+            dxdy[N] <- (11/6*x[N] - 3*x[N-1] + 3/2*x[N-2] - 1/3*x[N-3])/d
+         }
+      }
+      
+   }
+   return(dxdy)
+}
+```
+
+```{r}
+theme_set(theme_bw())
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+#water <- st_read("data/USA_Detailed_Water_Bodies.shp")
+
+world_points <- st_centroid(world)
+world_points <- cbind(world, st_coordinates(st_centroid(world$geometry)))
+
+ggplot(data = world) +
+  geom_sf() +
+  #geom_sf(data = water, fill = "lightblue") +
+  geom_text(data= world_points,
+            aes(x=X, y=Y, label=name),
+            color = "darkblue", 
+            fontface = "bold", 
+            size = 2,
+            check_overlap = TRUE)
+```
+Digital elevation model
+Can be done at different levels zooming in
+First line is telling R that we do have internet access.
+Locations means the whole map. 
+```{r}
+assign("has_internet_via_proxy", TRUE, environment(curl::has_internet))
+
+world_relief <- get_elev_raster(locations = world, z = 1, clip = "locations")
+
+r <- raster(xmn = -105, xmx = -50, ymn = 0, ymx = 55, nrow = 100, ncol = 100)
+r[]=runif(100*100)
+
+plot(world_relief)
+plot(ne_coastline(), add=TRUE)
+plot(r, add=TRUE)
+```
+Breaking down maps.
+Select whatever state you want, such as North Carolina using the function 'counties'. 
+This is downloading data.
+```{r}
+nc_counties <- counties(
+  state = 'North Carolina', cb = FALSE, progress_bar = TRUE)
+```
+
+Repeat what we did with the world, but with North Carolina.
+
+```{r}
+assign("has_internet_via_proxy", TRUE, environment(curl::has_internet))
+
+# Use elevatr to get elevation data
+nc_elevations <- elevatr::get_elev_raster(
+  locations = nc_counties, z = 8, clip = 'locations'
+)
+
+plot(nc_elevations)
+
+# Convert elevation data to dataframe
+nc_elevations <- as.data.frame(nc_elevations, xy = TRUE)
+colnames(nc_elevations)[3] <- 'elevation'
+
+# Remove rows with one or more NA's using complete.cases
+nc_elevations <- nc_elevations[complete.cases(nc_elevations), ]
+```
+Better digital elevation model in black and white. Adding in counties and text.The more resolution you add, the higher the zoom is, so the longer it will take to create the figure. 
+
+```{r}
+ggplot() +
+  geom_relief(data = nc_elevations,
+              aes(x = x, y = y, z = elevation, light = 'white', dark = 'grey20'), 
+               raster = FALSE, interpolate = TRUE, sun.angle = 60) +
+  #geom_sf(data = water, color = NA, fill = 'lightblue', size = 0.6, alpha = 1) +
+  geom_sf(data = nc_counties, color = 'white', fill = NA) +
+  geom_sf_text_repel(data = nc_counties, aes(label = NAME),
+                     size = 3, bg.color = 'white', color = 'darkgreen') +
+  coord_sf(datum = sf::st_crs(nc_counties), ) +
+  labs(title = 'Land Elevations',
+       subtitle = 'Counties of North Carolina',
+       caption = 'Data source: https://registry.opendata.aws/terrain-tiles')
+```
+
+Species distribution model
+Use GBIF-- global biodiversity information facility
+First, we are downloading the data.
+
+```{r}
+Appalachioria.separanda_GBIF <- occ_data(scientificName = "Appalachioria separanda", hasCoordinate = TRUE, decimalLongitude = "-100, -60", decimalLatitude = "0, 50", limit = 10000)
+
+Appalachioria.separanda_GBIF <- data.frame(Appalachioria.separanda_GBIF$data)
+```
+
+Use states instead of counties. 
+
+```{r}
+states <- states()
+
+zone <- states[ which(states$STUSPS == "WV" | states$STUSPS == "OH" | states$STUSPS == "KY"| states$STUSPS == "PA" ),]
+
+zone <- st_make_valid(zone)
+```
+
+```{r}
+assign("has_internet_via_proxy", TRUE, environment(curl::has_internet))
+
+# Use elevatr to get elevation data
+elevations <- elevatr::get_elev_raster(
+  locations = zone, z = 4, clip = 'locations'
+)
+
+# Convert elevation data to dataframe
+elevations <- as.data.frame(elevations, xy = TRUE)
+colnames(elevations)[3] <- 'elevation'
+
+# Remove rows with one or more NA's using complete.cases
+elevations <- elevations[complete.cases(elevations), ]
+```
+
+```{r}
+ggplot() +
+  geom_relief(data = elevations,
+              aes(x = x, y = y, z = elevation, light = 'white', dark = 'grey20'), 
+               raster = FALSE, interpolate = TRUE, sun.angle = 60) +
+  #geom_sf(data = water, color = NA, fill = 'lightblue', size = 0.6, alpha = 1) +
+  geom_sf(data = zone, color = 'white', fill = NA) +
+  geom_sf_text_repel(data = zone, aes(label = NAME),
+                     size = 3, bg.color = 'white', color = 'skyblue') +
+  coord_sf(datum = sf::st_crs(zone)) +
+  geom_point(data = Appalachioria.separanda_GBIF, aes(x = decimalLongitude, y = decimalLatitude, color="red")) +
+  labs(title = 'Land Elevations',
+       subtitle = 'State in Zone of Interest',
+       caption = 'Data source: https://registry.opendata.aws/terrain-tiles')
+```
+# ENM workbook
+
+## Citation
+- GBIF.org (12 October 2023) GBIF Occurrence Download  https://doi.org/10.15468/dl.3stbgp
+We are using maximum entropy theory to predict where these organisms could be. 
+These models are showing the fundamental niche of the organism, showing what abiotic factors are affecting the presence of such organisms.
+
+## Download, read, and explore occurence data
+
+```{r}
+#PROW_GBIF <- occ_search(scientificName = "Protonotaria citrea", hasCoordinate = TRUE, decimalLongitude = "-100, -60", decimalLatitude = "0, 50", limit = 10000)
+
+write.csv(PROW_GBIF$data, file = "data/PROW_GBIF.csv", row.names = FALSE)
+
+#PROW_GBIF_df <- read.csv("PROW_GBIF.csv")
+
+#PROW_GBIF_df <- read.csv("0011132-231002084531237/0011132-231002084531237.csv")
+```
+
+```{r}
+PROW_GBIF_df
+```
+```{r}
+colnames(PROW_GBIF_df)
+```
+### Construct SDM
+
+#### Obtain Environmental Layers
+
+a. View available layers
+```{r}
+# Inspect the available datasets and layers
+datasets <- list_datasets(terrestrial = TRUE, marine = FALSE)
+View(datasets)
+layers <- list_layers(datasets)
+View(layers)
+```
+
+b. Choose and load layers
+```{r}
+# Load equal area rasters
+layercodes <- c("WC_alt", "WC_bio1", "WC_bio2", "WC_bio3", "WC_bio4", "WC_bio5", "WC_bio6", "WC_bio7", "WC_bio8", "WC_bio9", "WC_bio10", "WC_bio11", "WC_bio12", "WC_bio13", "WC_bio14", "WC_bio15", "WC_bio16", "WC_bio17", "WC_bio18", "WC_bio19")
+env <- load_layers(layercodes,  datadir = "sdm_data_layers")
+plot(env)
+
+easternUS <- raster::crop(env, raster::extent(-100, -60, 0, 50))
+plot(easternUS)
+```
+
+c. Check to see if each abiotic variable is correlated with one another for all wc BIO's.
+```{r}
+# Compare correlations between predictors for Carribean
+prettynames <- list(WC_alt="Altitude", 
+                    WC_bio1="Annual mean temp", 
+                    WC_bio2="Mean diurnal temperature range", 
+                    WC_bio3="Isothermality", 
+                    WC_bio4="Temperature seasonality", 
+                    WC_bio5="Maximum temperature", 
+                    WC_bio6="Minimum temperature", 
+                    WC_bio7="Annual temperature range", 
+                    WC_bio8="Mean temperature of wettest quarter", 
+                    WC_bio9="Mean temperature of driest quarter", 
+                    WC_bio10="Mean temperature of warmest quarter", 
+                    WC_bio11="Mean temperature of coldest quarter", 
+                    WC_bio12="Annual precipitation", 
+                    WC_bio13="Precipitation of wettest month", 
+                    WC_bio14="Precipitation of driest month", 
+                    WC_bio15="Precipitation seasonality", 
+                    WC_bio16="Precipitation of wettest quarter", 
+                    WC_bio17="Precipitation of driest quarter", 
+                    WC_bio18="Precipitation of warmest quarter", 
+                    WC_bio19="Precipitation of coldest quarter")
+
+easternUS_correlations <- pearson_correlation_matrix(easternUS)
+
+p1 <- plot_correlation(easternUS_correlations, prettynames)
+
+cowplot::plot_grid(p1, labels = "Eastern US", ncol = 1, nrow = 1)
+
+print(correlation_groups(easternUS_correlations))
+```
+#### Choose occurence points for SDMs
+
+```{r}
+summary(PROW_GBIF_df)
+```
+Only filter out the rows where there is missing data.
+```{r}
+obs_data <- PROW_GBIF_df[!is.na(PROW_GBIF_df$decimalLatitude), ]
+```
+
+#### Crop environmental layers to fit occurences
+Using a geographic extent and rasters.
+We use 1.25 so there is more map and the points don't fall right on the edges.
+```{r}
+# Determine geographic extent of our data
+max_lat <- ceiling(max(obs_data$decimalLatitude))
+min_lat <- floor(min(obs_data$decimalLatitude))
+max_lon <- ceiling(max(obs_data$decimalLongitude))
+min_lon <- floor(min(obs_data$decimalLongitude))
+# Store boundaries in a single extent object
+geographic_extent <- raster::extent(x = c(min_lon, max_lon, min_lat, max_lat))
+
+sample_extent <- geographic_extent * 1.25
+
+sample_extent
+```
+Getting latitude and longitude as two columns and write them out into a file.
+```{r}
+# Fetch occurrences and prepare for ???
+points <- cbind(obs_data$decimalLongitude, obs_data$decimalLatitude)
+#points <- spTransform(points)
+occfile <- tempfile(fileext = ".csv")
+write.csv(cbind(points, value=1), occfile)
+#read.csv("occfile")
+```
+
+Now plot to check the data!
+```{r}
+# Download data with geodata's world function to use for our base map
+world_map <- world(resolution = 3,
+                   path = "data/")
+
+# Crop the map to our area of interest
+my_map <- crop(x = world_map, y = sample_extent)
+
+# Plot the base map
+plot(my_map,
+     axes = TRUE, 
+     col = "grey95")
+
+# Add the points for individual observations
+points(x = obs_data$decimalLongitude, 
+       y = obs_data$decimalLatitude, 
+       col = "olivedrab", 
+       pch = 20, 
+       cex = 0.75)
+```
+
+#### FIX!!!
+
+Now we are plotting the corrected data.
+
+```{r}
+#bioclim_data <- worldclim_global(var = "bio",
+#                                 res = 2.5,
+#                                 path = "0011132-231002084531237/")
+```
+
+```{r}
+# Make an extent that is 25% larger
+sample_extent <- geographic_extent * 1.25
+
+# Crop bioclim data to desired extent
+bioclim_data <- crop(x = env, y = sample_extent)
+
+# Plot the first of the bioclim variables to check on cropping
+plot(bioclim_data[[1]])
+```
+
+```{r}
+bioclim_data_SR <- as(bioclim_data, "SpatRaster")
+```
+
+Create a model to recognize a thing when giving R multiple samples. Learn from this model to where things should be. If it gets them all right, then we know the model was trained well.
+
+```{r}
+# Set the seed for the random-number generator to ensure results are similar
+set.seed(20210707)
+
+# Randomly sample points (same number as our observed points)
+background <- spatSample(x = bioclim_data_SR,
+                         size = 100000,    # generate 1,000 pseudo-absence points
+                         values = FALSE, # don't need values
+                         na.rm = TRUE,   # don't sample from ocean
+                         xy = TRUE)      # just need coordinates
+
+# Look at first few rows of background
+head(background)
+```
+
+```{r}
+# Plot the base map
+plot(my_map,
+     axes = TRUE, 
+     col = "grey95")
+
+# Add the background points
+points(background,
+       col = "grey30",
+       pch = 2,
+       cex = 0.1,)
+
+# Add the points for individual observations
+points(x = obs_data$decimalLongitude, 
+       y = obs_data$decimalLatitude, 
+       col = "firebrick", 
+       pch = 20, 
+       cex = 0.25)
+```
+
+```{r}
+# Pull out coordinate columns, x (longitude) first, then y (latitude) from presences
+presence <- obs_data[, c("decimalLongitude", "decimalLatitude")]
+# Add column indicating presence
+presence$pa <- 1
+
+# Convert background data to a data frame
+absence <- as.data.frame(background)
+# Update column names so they match presence points
+colnames(absence) <- c("decimalLongitude", "decimalLatitude")
+# Add column indicating absence
+absence$pa <- 0
+
+# Join data into single data frame
+all_points <- rbind(presence, absence)
+
+#Convert column names to match bioclim
+colnames(all_points) <- c("longitude", "latitude","pa")
+
+# Reality check on data
+head(all_points)
+```
+Extract from the data, where all our actual presence points are.
+```{r}
+bioclim_extract <- extract(x = bioclim_data_SR,
+                           y = all_points[, c("longitude", 
+                                              "latitude")],
+                           ID = FALSE)
+```
+
+Drop the latitude and longtitude columns.
+```{r}
+# Add the point and climate datasets together
+points_climate <- cbind(all_points, bioclim_extract)
+
+# Identify columns that are latitude & longitude
+drop_cols <- which(colnames(points_climate) %in% c("longitude", "latitude"))
+drop_cols # print the values as a reality check
+```
+
+```{r}
+# Remove the geographic coordinates from the data frame
+points_climate <- points_climate[, -drop_cols]
+```
+
+```{r}
+# Create vector indicating fold
+#install.packages("predicts", dependencies = T)
+library(predicts)
+
+fold <- folds(x = points_climate,
+              k = 5,
+              by = points_climate$pa)
+
+table(fold)
+```
+
+```{r}
+testing <- points_climate[fold == 1, ]
+training <- points_climate[fold != 1, ]
+```
+
+```{r}
+# Build a model using training data
+glm_model <- glm(pa ~ ., data = na.omit(training), family = binomial())
+```
+
+```{r}
+# Get predicted values from the model
+glm_predict <- predict(bioclim_data_SR, glm_model, type = "response")
+
+# Print predicted values
+plot(glm_predict)
+```
+
+```{r}
+# Use testing data for model evaluation
+glm_eval <- pa_evaluate(p = testing[testing$pa == 1, ],
+                        a = testing[testing$pa == 0, ],
+                        model = glm_model,
+                        type = "response")
+```
+
+```{r}
+# Determine minimum threshold for "presence"
+glm_threshold <- glm_eval@thresholds$max_spec_sens
+```
+
+```{r}
+# Plot base map
+plot(my_map, 
+     axes = TRUE, 
+     col = "grey95")
+
+# Only plot areas where probability of occurrence is greater than the threshold
+plot(glm_predict > glm_threshold, 
+     add = TRUE, 
+     legend = FALSE, 
+     col = "olivedrab")
+
+# And add those observations
+points(x = obs_data$decimalLongitude, 
+       y = obs_data$decimalLatitude, 
+       col = "black",
+       pch = "+", 
+       cex = 0.75)
+
+# Redraw those country borders
+plot(my_map, add = TRUE, border = "grey5")
+```
+
+```{r}
+glm_predict > glm_threshold
+```
+```{r}
+# Plot base map
+plot(my_map, 
+     axes = TRUE, 
+     col = "grey95")
+
+# Only plot areas where probability of occurrence is greater than the threshold
+plot(glm_predict > glm_threshold, 
+     add = TRUE, 
+     legend = FALSE, 
+     col = c(NA, "olivedrab")) # <-- Update the values HERE
+
+# And add those observations
+points(x = obs_data$decimalLongitude, 
+       y = obs_data$decimalLatitude, 
+       #col = alpha("blue",0.5),
+       col = "blue",
+       pch = ".", 
+       cex = 0.0000000000001
+       )
+
+# Redraw those country borders
+plot(my_map, add = TRUE, border = "grey5")
+```
+```{r}
+# Save PDF
+pdf("PROW_GLM_Pred.pdf")
+
+# Plot base map
+plot(my_map, 
+     axes = TRUE, 
+     col = "grey95")
+
+# Only plot areas where probability of occurrence is greater than the threshold
+plot(glm_predict > glm_threshold, 
+     add = TRUE, 
+     legend = FALSE, 
+     col = c(NA, "olivedrab")) # <-- Update the values HERE
+
+# And add those observations
+points(x = obs_data$decimalLongitude, 
+       y = obs_data$decimalLatitude, 
+       #col = alpha("blue",0.5),
+       col = "blue",
+       pch = ".", 
+       cex = 0.0000000000001
+       )
+
+# Redraw those country borders
+plot(my_map, add = TRUE, border = "grey5")
+
+dev.off()
+```
+
+```{r}
+# Layer citations
+print(layer_citations(layercodes))
+```
+
+
+```{r}
+glm_model
+```
+
+
+# Stopped in Brewer's file at number 1832
+
+##### TidyData
+
+```{r}
+library(palmerpenguins)
+library(tidyverse)
+head(penguins)
+```
+We are manipulating datasets to get different results, organize it different ways, etc.
+```{r}
+weather <- read.csv("https://pasta.lternet.edu/package/data/eml/knb-lter-pal/28/8/375b34051b162d84516ec2d02f864675")
+```
+
+- Structure
+```{r}
+str(penguins)
+```
+Tells you dimensions 344 rows x8 columns, and what content is in each column.
+
+```{r}
+str(weather)
+```
+
+- Reducing Data Set Dimensions
+```{r}
+colnames(penguins)
+```
+```{r}
+dim(penguins)
+```
+
+Sending all text and structure to a Select command by selecting whatever columns we want to work with.
+```{r}
+penguins %>% dplyr::select(year)
+```
+Everything except the year column
+```{r}
+penguins %>% dplyr::select(-year)
+```
+
+```{r}
+penguins %>% dplyr::select(species, island, year) %>% 
+  dplyr::filter(year == 2007)
+```
+Want all data in years except 2007 in the chosen columns.
+
+```{r}
+penguins %>% dplyr::select(species, island, year) %>% 
+  dplyr::filter(year != 2007)
+```
+Pipe | means 'or', so data found in 2007 or 2009.
+
+```{r}
+penguins %>% dplyr::select(species, island, year) %>% 
+  dplyr::filter(year == 2007 | year == 2009)
+```
+Data found in year 2007 and in the specific island. 
+```{r}
+penguins %>% dplyr::select(species, island, year) %>% 
+  dplyr::filter(year == 2007 & island == "Torgersen")
+```
+
+Can create variables based on the data and how you want to see it organized.
+```{r}
+Torg_2007_penguins <- penguins %>% dplyr::select(species, island, year) %>% 
+  dplyr::filter(year == 2007 & island == "Torgersen")
+
+Torg_2007_penguins
+```
+
+Where it says TRUE means it is missing that N/A value and sex is not assigned to that observation.
+
+```{r}
+is.na(penguins$sex)
+```
+
+Filtering out which ones where sex is n/a. 
+```{r}
+penguins %>% filter(is.na(sex))
+```
+
+Giving the only observations where sex is assigned.
+```{r}
+penguins %>% filter(!is.na(sex))
+```
+
+Filtering observations with sex recorded and penguins weighing more than 5000 g.
+```{r}
+penguins %>% filter(!is.na(sex) & body_mass_g >= 5000)
+```
+
+Summary data based on what we just filtered.
+```{r}
+summary(penguins %>% filter(!is.na(sex) & body_mass_g >= 5000))
+```
+
+Want to create new columns in the data, but the original dataset remains untouched. You can now save this as a new dataset. 
+```{r}
+penguins %>% mutate(bill.mass.ratio = bill_length_mm/body_mass_g)
+```
+
+Bills standardized by penguin mass. 
+
+```{r}
+penguins_bill.mass.ratio <- penguins %>% mutate(bill.mass.ratio = bill_length_mm/body_mass_g)
+
+vioplot(penguins_bill.mass.ratio$bill.mass.ratio)
+```
+
+Set up size categories for small, medium and big penguins based on body mass size g. Set it up to apply all possible categories. We are also removing all observations where body mass is missing by including a filter.
+
+```{r}
+penguins %>% filter(!is.na(body_mass_g)) %>%
+  mutate(body_size_cat = case_when(
+  body_mass_g >= 5000 ~ "big",
+  body_mass_g <= 3500 ~ "small",
+  body_mass_g <5000 & body_mass_g >3500 ~ "medium",
+  TRUE ~ "ERROR"
+))
+```
+
+Want to do some stats on this by using the summarize function.
+```{r}
+penguins %>% filter(!is.na(body_mass_g)) %>%
+  mutate(body_size_cat = case_when(
+  body_mass_g >= 5000 ~ "big",
+  body_mass_g <= 3500 ~ "small",
+  body_mass_g <5000 & body_mass_g >3500 ~ "medium",
+  TRUE ~ "ERROR"
+)) %>% 
+  summarise(mean_body_mass_g = mean(body_mass_g, na.rm=TRUE))
+```
+
+Want to see the mean by species of penguin.
+```{r}
+penguins %>% filter(!is.na(body_mass_g)) %>%
+  mutate(body_size_cat = case_when(
+  body_mass_g >= 5000 ~ "big",
+  body_mass_g <= 3500 ~ "small",
+  body_mass_g <5000 & body_mass_g >3500 ~ "medium",
+  TRUE ~ "ERROR"
+)) %>% 
+  dplyr::group_by(species) %>%
+  dplyr::summarise(mean_body_mass_g = mean(body_mass_g, na.rm = TRUE))
+```
+
+Seeing average male and female body size per species. Then adding standard deviation for each average body mass.
+```{r}
+penguins %>% filter(!is.na(body_mass_g)) %>%
+  mutate(body_size_cat = case_when(
+  body_mass_g >= 5000 ~ "big",
+  body_mass_g <= 3500 ~ "small",
+  body_mass_g <5000 & body_mass_g >3500 ~ "medium",
+  TRUE ~ "ERROR"
+)) %>% 
+  filter(!is.na(sex)) %>%
+  dplyr::group_by(species, sex) %>%
+  dplyr::summarise(mean_body_mass_g = mean(body_mass_g, na.rm = TRUE),
+                   sd_body_mass_g = sd(body_mass_g, na.rm=TRUE))
+```
+- Manipulating Data
+
+```{r}
+str(weather)
+```
+
+Breaking down data.
+```{r}
+lubridate::year("2024-10-28")
+```
+
+```{r}
+lubridate::ymd("2024-10-28")
+```
+
+```{r}
+lubridate::yday("2024-10-28")
+```
+
+Changing the date variable in our dataset to an actual date and recognized as a date, not a character.
+
+```{r}
+weather %>% mutate(Date = ymd(Date))
+```
+
+Have Date be just a year. Then sum up the data to just see one variable coordinating with Date.
+```{r}
+weather %>% mutate(Date = year(Date)) %>% group_by(Date) %>%
+dplyr::summarise(mean(Temperature.Average..C.))
+```
+
+```{r}
+weather %>% mutate(Date = ymd(Date)) %>% group_by(Date) %>%
+dplyr::summarise(mean(Temperature.Average..C.))
+```
+
+Organizing date by month where all data points from one month are at the month level, then summarized by groupby date so all April ones for example are together. Summarize average temperature by each month!
+```{r}
+weather %>% mutate(Date = ymd(Date)) %>%
+  mutate(Date = floor_date(Date, unit = 'month')) %>% 
+  group_by(Date) %>%
+  dplyr::summarise(mean(Temperature.Average..C.))
+```
+
+```{r}
+weather %>% mutate(Date = ymd(Date)) %>%
+  mutate(Date = floor_date(Date, unit = 'year')) %>% 
+  group_by(Date) %>%
+  dplyr::summarise(mean(Temperature.Average..C.))
+```
+
+```{r}
+weather %>% mutate(Date = ymd(Date)) %>%
+  mutate(Date = floor_date(Date, unit = 'year')) %>% 
+  group_by(Date) %>%
+  dplyr::summarise(mean(Temperature.Average..C.)) %>%
+  
+  ggplot(aes(x=Date, y=`mean(Temperature.Average..C.)`)) +
+    geom_point(aes(color = year(Date))) +
+    scale_color_viridis_c() +
+    geom_line(color = "darkgrey") +
+    geom_smooth(method = "lm", linewidth = 1, linetype = 1, color = "red", se = 0.95, fill = "orange")
+```
+
+```{r}
+weather %>% mutate(Date = ymd(Date)) %>%
+  mutate(Date = floor_date(Date, unit = 'month')) %>% 
+  group_by(Date) %>%
+  dplyr::summarise(mean(Temperature.Average..C.)) %>%
+  
+  ggplot(aes(x=Date, y=`mean(Temperature.Average..C.)`)) +
+    geom_point(aes(color = year(Date))) +
+    scale_color_viridis_c() +
+    geom_line(color = "darkgrey") +
+    geom_smooth(method = "lm", linewidth = 1, linetype = 1, color = "red")
+```
+
+- Joining Data Frames
+
+```{r}
+colnames(penguins)
+```
+
+```{r}
+colnames(weather)
+```
+Grouped weather by years of each date and average temperatures, min and max per year. 
+One row per year with corrected column names.
+```{r}
+(weather.sums <- weather %>%
+    group_by(year(Date)) %>%
+    dplyr::summarise(avg.temp = mean(Temperature.Average..C., na.rm = TRUE),
+                     max.temp = mean(Temperature.High..C., na.rm = TRUE),
+                     min.temp = mean(Temperature.Low..C., na.rm = TRUE)) %>%
+    dplyr::rename(year = `year(Date)`)
+)
+```
+
+Pick a column that is the same between penguin and weather datasets and join them (year). 
+
+```{r}
+(penguins_weather.sums <- left_join(penguins, weather.sums, by = "year"))
+```
+
+Sex is bimodal as they incorporate all species. Then separate into each species and year.
+```{r}
+penguins_weather.sums %>%
+  dplyr::filter(!is.na(sex)) %>%
+  
+  ggplot(aes(x=sex, y=body_mass_g, color = sex, fill = sex)) +
+    geom_violin() +
+    scale_color_manual(values = c("darkorange", "purple")) +
+    scale_fill_manual(values = c("darkorange", "purple")) +
+    facet_wrap( ~species + year) +
+    labs(title = "Average penguin per species per year by sex",
+         x="Sex",
+         y="Body Mass (g)") +
+    theme_classic()
+```
+
+Average penguin body mass, annual minimum temperature average, separate by species, sex, and year. 
+
+```{r}
+penguins_weather.sums %>%
+  dplyr::filter(!is.na(sex)) %>%
+  dplyr::group_by(species, sex, year) %>%
+  dplyr::summarise(mean.body.mass.g = mean(body_mass_g), 
+                   mean.min.temp.c = mean(min.temp)) %>%
+  
+  ggplot(aes(x=mean.min.temp.c, y=mean.body.mass.g, color = sex)) +
+           geom_point() +
+           scale_color_viridis_d() +
+           geom_smooth(method = "lm", se = FALSE) +
+           facet_wrap(~ species) +
+           theme_classic() +
+           labs(title = "Average penguin body mass by average annual minimum temperature",
+                x="Average minimum temperature (C)",
+                y="Average body mass (g)")
+           
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
