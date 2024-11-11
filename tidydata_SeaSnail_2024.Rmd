@@ -26,8 +26,48 @@ getwd()
 seasnail <- read.csv("~/praccomp2024/Praccomp2024/tidydata_SeaSnail_2024.csv")
 seasnail
 ```
+```{r}
+#Checking to make sure each column variable is the correct type of data format.
 
+typeof(seasnail$site_id)
+#seasnail$site_id
+typeof(seasnail$date)
+#seasnail$date
+typeof(seasnail$visit_no)
+#seansnail$visit_no
+typeof(seasnail$season)
+typeof(seasnail$sex)
+# 0 = male, 1 = female
+typeof(seasnail$shell_height_mm)
+typeof(seasnail$infection_status)
+# 0 = uninfected, 1 = infected
+typeof(seasnail$trematode_species)
+typeof(seasnail$snail_quadrat_no)
+typeof(seasnail$snail_density)
+typeof(seasnail$snail_density)
+typeof(seasnail$lt_height_ft)
+typeof(seasnail$water_temp_C)
+typeof(seasnail$air_temp_C)
+typeof(seasnail$salinity_ppt)
+typeof(seasnail$water_depth_cm)
+typeof(seasnail$quadrat_distance_m)
+typeof(seasnail$shoot_density)
+typeof(seasnail$grass_species_1)
+typeof(seasnail$no_blades_1)
+typeof(seasnail$grass_species_2)
+typeof(seasnail$no_blades_2)
+```
 
+```{r}
+seasnail
+```
 
+```{r}
+str(seasnail)
+```
+
+```{r}
+seasnail %>% dplyr::select(-blade1_length_cm_1, -blade2_length_cm_1, -blade3_length_cm_1, -blade4_length_cm_1, -blade5_length_cm_1, -blade1_length_cm_2, -blade2_length_cm_2, -blade3_length_cm_2, -blade4_length_cm_2, -blade5_length_cm_2, -no_blades_1, -no_blades_2, -tin_wt_g, -dry_filter_wt_g, -tin_dry_filter_wt_g, -wet_filter_wt_g, -tin_filter_epibiont_wt_g, -epibiont_biomass_mg, -foil_wt_g, -grass_quadrat_no)
+```
 
 
