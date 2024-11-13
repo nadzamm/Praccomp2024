@@ -68,7 +68,7 @@ ggplot(seasnail_season_salinity, aes(x = date, y = salinity_ppt, fill = season))
   geom_smooth(method = "lm")
 ```
 
-###Filtering and plotting for comparing water temperature measurements across all sites in all sample seasons: early summer, late summer, and fall
+### Filtering and plotting for comparing water temperature measurements across all sites in all sample seasons: early summer, late summer, and fall
 ```{r}
 seasnail_season_watertemp <- seasnail %>% dplyr::select(site_id, season, date, water_temp_C) %>%
   filter(!is.na(water_temp_C)) %>%
@@ -81,7 +81,7 @@ ggplot(seasnail_season_watertemp, aes(x = date, y = water_temp_C, fill = season)
   geom_point(aes(color = season)) +
   geom_smooth(method = "lm")
 ```
-###Filtering and plotting for comparing air temperature measurements across all sites in all sample seasons: early summer, late summer, and fall
+### Filtering and plotting for comparing air temperature measurements across all sites in all sample seasons: early summer, late summer, and fall
 ```{r}
 seasnail_season_airtemp <- seasnail %>% dplyr::select(site_id, season, date, air_temp_C) %>%
   filter(!is.na(air_temp_C)) %>%
