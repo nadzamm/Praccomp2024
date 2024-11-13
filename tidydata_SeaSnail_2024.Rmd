@@ -64,6 +64,7 @@ seasnail
 
 ```{r}
 str(seasnail)
+library(tidyverse)
 ```
 
 ```{r}
