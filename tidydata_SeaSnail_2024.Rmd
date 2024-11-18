@@ -63,9 +63,12 @@ seasnail_season_salinity
 ```
 ### Plot a general linear model for salinity per season by date
 ```{r}
-ggplot(seasnail_season_salinity, aes(x = date, y = salinity_ppt, fill = season)) +
-  geom_point(aes(color = season)) +
-  geom_smooth(method = "lm")
+ggplot(seasnail_season_salinity, aes(x = date, y = salinity_ppt, fill = season)) + 
+         labs(x = "Date", y = "Salinity (ppt)", title = "Seasonal Salinity over Time") +
+  geom_col(aes(color = season)) +
+  geom_smooth(method = "lm") +
+  theme_linedraw() +
+  facet_wrap( ~ site_id)
 ```
 
 ### Filtering and plotting for comparing water temperature measurements across all sites in all sample seasons: early summer, late summer, and fall
@@ -78,8 +81,11 @@ seasnail_season_watertemp
 ### Plot a general linear model for water temperature per season by date
 ```{r}
 ggplot(seasnail_season_watertemp, aes(x = date, y = water_temp_C, fill = season)) +
+  labs(x = "Date", y = "Water Temperature (C)", title = "Seasonal Water Temperature over Time") +
   geom_point(aes(color = season)) +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm", color="black", size=0.5) +
+  theme_linedraw() +
+  facet_wrap( ~ site_id)
 ```
 ### Filtering and plotting for comparing air temperature measurements across all sites in all sample seasons: early summer, late summer, and fall
 ```{r}
@@ -91,8 +97,10 @@ seasnail_season_airtemp
 ### Plot a general linear model for water temperature per season by date
 ```{r}
 ggplot(seasnail_season_airtemp, aes(x = date, y = air_temp_C, fill = season)) +
+  labs(x = "Date", y = "Air Temperature (C)", title = "Seasonal Air Temperature over Time") +
   geom_point(aes(color = season)) +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm", color="black", size=0.5)+
+  theme_linedraw()
 ```
 ### Filtering and plotting for comparing low tide height across all sites in all sample seasons: early summer, late summer, and fall
 ```{r}
@@ -104,8 +112,10 @@ seasnail_season_ltheight
 ### Plot a general linear model for low tide height per season by date
 ```{r}
 ggplot(seasnail_season_ltheight, aes(x = date, y = lt_height_ft, fill = season)) +
+  labs(x = "Date", y = "Low Tide Height (ft)", title = "Seasonal Low Tide Heights over Time") +
   geom_point(aes(color = season)) +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm", color="black", size=0.5)+
+  theme_linedraw()
 ```
 ### Filtering and plotting for comparing water depth across all sites in all sample seasons: early summer, late summer, and fall
 ```{r}
@@ -117,8 +127,13 @@ seasnail_season_waterdepth
 ### Plot a general linear model for water depth per season by date
 ```{r}
 ggplot(seasnail_season_waterdepth, aes(x = date, y = water_depth_cm, fill = season)) +
+  labs(x = "Date", y = "Water Depth (mm)", title = "Seasonal Water Depth at Low Tide per Site over Time") +
   geom_point(aes(color = season)) +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm", color="black", size=0.5) +
+  theme_linedraw()
+```
+```{r}
+
 ```
 
 
