@@ -23,9 +23,16 @@ This file is referred to as tidydata_SeaSnail_2024.csv.
 
 #### Project Summary
 
-Specific species of trematodes are known to influence consumption of epiphytes off seagrass blades by their host the eastern mudsnail (Ilyanassa obsoleta). However, there is little known about how parasites present across multiple sites and seasons could indirectly affect seagrass ecosystems through host behavior modulation. 
+Specific species of trematodes are known to influence consumption of epiphytes off seagrass blades by their host the eastern mudsnail (*Ilyanassa obsoleta*).
 
-Altogether, the proposed study seeks to **understand the indirect consequences parasite diversity has upon ecosystem structure though host behavior modulation.** I will investigate the cascading trait-mediated indirect effects of different trematodes on ecosystem structural components: biodiversity and species richness of meiofauna and infauna. I will also investigate the potential mechanisms in which trematodes indirectly instigate these structural changes (host movement behavior, benthic chlorophyll-a, nutrient flux, and sediment properties). **I hypothesize that differences in trematode size and physiological impact are the likely mechanisms behind trait-mediated indirect effects upon mudflat ecosystem structure: HQ is the largest trematode with the most physiological effect on I. obsoleta, followed by LS, and lastly ZL.**
+- There is little known about how parasites present across multiple sites and seasons could indirectly affect seagrass ecosystems through host behavior modulation. 
+
+The proposed study seeks to:
+
+- **understand the indirect consequences parasite diversity has upon ecosystem structure though host behavior modulation.**
+- I will investigate the cascading trait-mediated indirect effects of different trematodes on ecosystem structural components: biodiversity and species richness of meiofauna and infauna.
+- I will also investigate the potential mechanisms in which trematodes indirectly instigate these structural changes
+- host movement behavior, benthic chlorophyll-a, nutrient flux, and sediment properties). **I hypothesize that differences in trematode size and physiological impact are the likely mechanisms behind trait-mediated indirect effects upon mudflat ecosystem structure: HQ is the largest trematode with the most physiological effect on I. obsoleta, followed by LS, and lastly ZL.**
 
 Data is collected across 10 sample sites (Manatee Street Park, 103 Sunny Point, 135 Jones Landing, 113 Mary Lane (hereafter Reference Marsh), Pine Knoll Shores, University of North Carolina: Institute of Marine Science (UNC IMS), Carrot Island, Harkers Island Bridge, Miramar Road, 465 Oak Hammock), 3 seasons (Early SUmmer, Late Summer, Fall), and three regions of North Carolina's coastal shores (Bogue Sound, Back Sound, and the Straits).
 
