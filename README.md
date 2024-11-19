@@ -14,9 +14,12 @@ Upon completing all data entry and dissections from the 2024 field seasons
 - Fall
 
 Data reorganization and comprehension begain in a single large Excel file (xlsx) for the purpose of data analysis in RStudio. 
+
 This file is referred to as tidydata_SeaSnail_2024.csv.
 
-Note: Multiple columns in tidydata_SeaSnail_2024.csv are completely empty, as these are for seagrass processing and biomass measurements of seagrass blades and epibionts. Seagrass samples have not been processed, so this data is not present in this csv file. 
+**Note:** Multiple columns in tidydata_SeaSnail_2024.csv are completely empty. 
+
+- These are for seagrass processing and biomass measurements of seagrass blades and epibionts. Seagrass samples have not been processed.  
 
 #### Project Summary
 
