@@ -12,6 +12,7 @@ Upon completing all data entry and dissections from the 2024 field seasons
 - Early Summer
 - Late Summer
 - Fall
+
 Data reorganization and comprehension begain in a single large Excel file (xlsx) for the purpose of data analysis in RStudio. 
 This file is referred to as tidydata_SeaSnail_2024.csv.
 
