@@ -9,9 +9,9 @@ Data was entered after each field day, dissection of snails, determination of sn
 Field sheets were scanned in for storage and filed in order by date comprehensively in a binder.
 
 Upon completing all data entry and dissections from the 2024 field seasons 
-_Early Summer
-_Late Summer
-_Fall
+- Early Summer
+- Late Summer
+- Fall
 Data reorganization and comprehension begain in a single large Excel file (xlsx) for the purpose of data analysis in RStudio. 
 This file is referred to as tidydata_SeaSnail_2024.csv.
 
