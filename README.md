@@ -2,7 +2,10 @@
 ## Meghan Nadzam
 ### Data Reorganization Prior to R Entry
 
-Data was recorded on field data sheets and entered into individual Excel datasheets per site. Data was entered after each field day, dissection of snails, determination of snail infection, and identification of parasitic trematode species infecting a snail. 
+Data was recorded on field data sheets and entered into individual Excel datasheets per site. 
+
+Data was entered after each field day, dissection of snails, determination of snail infection, and identification of parasitic trematode species infecting a snail. 
+
 Field sheets were scanned in for storage and filed in order by date comprehensively in a binder.
 
 Upon completing all data entry and dissections from the 2024 field seasons (Early Summer, Late Summer, Fall), data reorganization and comprehension begain in a single large Excel file (xlsx) for the purpose of data analysis in RStudio. This file is referred to as tidydata_SeaSnail_2024.csv.
