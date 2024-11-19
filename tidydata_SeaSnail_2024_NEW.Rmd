@@ -1,0 +1,147 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+# Adding a directory and datafile
+
+```{r}
+getwd()
+
+```
+```{r}
+seasnail <- read.csv("~/praccomp2024/Praccomp2024/tidydata_SeaSnail_2024.csv")
+#seasnail
+```
+## Checking to make sure each column variable is the correct type of data format.
+```{r}
+typeof(seasnail$site_id)
+#seasnail$site_id
+typeof(seasnail$date)
+#seasnail$date
+typeof(seasnail$visit_no)
+#seansnail$visit_no
+typeof(seasnail$season)
+typeof(seasnail$sex)
+# 0 = male, 1 = female
+typeof(seasnail$shell_height_mm)
+typeof(seasnail$infection_status)
+# 0 = uninfected, 1 = infected
+typeof(seasnail$trematode_species)
+typeof(seasnail$snail_quadrat_no)
+typeof(seasnail$snail_density)
+typeof(seasnail$snail_density)
+typeof(seasnail$lt_height_ft)
+typeof(seasnail$water_temp_C)
+typeof(seasnail$air_temp_C)
+typeof(seasnail$salinity_ppt)
+typeof(seasnail$water_depth_cm)
+typeof(seasnail$quadrat_distance_m)
+typeof(seasnail$shoot_density)
+typeof(seasnail$grass_species_1)
+typeof(seasnail$no_blades_1)
+typeof(seasnail$grass_species_2)
+typeof(seasnail$no_blades_2)
+```
+
+```{r}
+#seasnail
+```
+## Adding tidyverse
+```{r}
+str(seasnail)
+library(tidyverse)
+```
+## Removal of all fully empty columns
+```{r}
+#seasnail %>% dplyr::select(-blade1_length_cm_1, -blade2_length_cm_1, -blade3_length_cm_1, -blade4_length_cm_1, -blade5_length_cm_1, -blade1_length_cm_2, -blade2_length_cm_2, -blade3_length_cm_2, -blade4_length_cm_2, -blade5_length_cm_2, -no_blades_1, -no_blades_2, -tin_wt_g, -dry_filter_wt_g, -tin_dry_filter_wt_g, -wet_filter_wt_g, -tin_filter_epibiont_wt_g, -epibiont_biomass_mg, -foil_wt_g, -grass_quadrat_no)
+```
+
+## Filtering 
+
+### Filtering for comparing salinity measurements across all sites in all sample seasons: early summer, late summer, and fall
+```{r}
+seasnail_season_salinity <- seasnail %>% dplyr::select(site_id, season, date, salinity_ppt) %>%
+  filter(!is.na(salinity_ppt)) %>%
+  mutate(date = ymd(date))
+seasnail_season_salinity
+```
+### Plot a general linear model for salinity per season by date
+```{r}
+ggplot(seasnail_season_salinity, aes(x = date, y = salinity_ppt, fill = season)) + 
+         labs(x = "Date", y = "Salinity (ppt)", title = "Seasonal Salinity over Time") +
+  geom_col(aes(color = season)) +
+  theme_linedraw() +
+  facet_wrap( ~ site_id)
+```
+
+### Filtering and plotting for comparing water temperature measurements across all sites in all sample seasons: early summer, late summer, and fall
+```{r}
+seasnail_season_watertemp <- seasnail %>% dplyr::select(site_id, season, date, water_temp_C) %>%
+  filter(!is.na(water_temp_C)) %>%
+  mutate(date = ymd(date))
+seasnail_season_watertemp
+```
+### Plot a general linear model for water temperature per season by date
+```{r}
+ggplot(seasnail_season_watertemp, aes(x = date, y = water_temp_C, fill = season)) +
+  labs(x = "Date", y = "Water Temperature (C)", title = "Seasonal Water Temperature over Time") +
+  geom_col(aes(color = season)) +
+  theme_linedraw() +
+  facet_wrap( ~ site_id)
+```
+### Filtering and plotting for comparing air temperature measurements across all sites in all sample seasons: early summer, late summer, and fall
+```{r}
+seasnail_season_airtemp <- seasnail %>% dplyr::select(site_id, season, date, air_temp_C) %>%
+  filter(!is.na(air_temp_C)) %>%
+  mutate(date = ymd(date))
+seasnail_season_airtemp
+```
+### Plot a general linear model for water temperature per season by date
+```{r}
+ggplot(seasnail_season_airtemp, aes(x = date, y = air_temp_C, fill = season)) +
+  labs(x = "Date", y = "Air Temperature (C)", title = "Seasonal Air Temperature over Time") +
+  geom_col(aes(color = season)) +
+  theme_linedraw()+
+  facet_wrap( ~ site_id)
+```
+### Filtering and plotting for comparing low tide height across all sites in all sample seasons: early summer, late summer, and fall
+```{r}
+seasnail_season_ltheight <- seasnail %>% dplyr::select(site_id, season, date, lt_height_ft) %>%
+  filter(!is.na(lt_height_ft)) %>%
+  mutate(date = ymd(date))
+seasnail_season_ltheight
+```
+### Plot a general linear model for low tide height per season by date
+```{r}
+ggplot(seasnail_season_ltheight, aes(x = date, y = lt_height_ft, fill = season)) +
+  labs(x = "Date", y = "Low Tide Height (ft)", title = "Seasonal Low Tide Heights over Time") +
+  geom_col(aes(color = season)) +
+  theme_linedraw()+
+  facet_wrap( ~ site_id)
+```
+### Filtering and plotting for comparing water depth across all sites in all sample seasons: early summer, late summer, and fall
+```{r}
+seasnail_season_waterdepth <- seasnail %>% dplyr::select(site_id, season, date, water_depth_cm) %>%
+  filter(!is.na(water_depth_cm)) %>%
+  mutate(date = ymd(date))
+seasnail_season_waterdepth
+```
+### Plot a general linear model for water depth per season by date
+```{r}
+ggplot(seasnail_season_waterdepth, aes(x = date, y = water_depth_cm, fill = season)) +
+  labs(x = "Date", y = "Water Depth (mm)", title = "Seasonal Water Depth at Low Tide per Site over Time") +
+  geom_point(aes(color = season)) +
+  geom_smooth(method = "lm", color="black", size=0.5) +
+  theme_linedraw()
+```
+```{r}
+
+```
+
+
+
+
+
+
+
