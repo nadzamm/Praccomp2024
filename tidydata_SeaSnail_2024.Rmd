@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Adding a directory and datafile
 
 ```{r}
@@ -6,7 +11,7 @@ getwd()
 ```
 ```{r}
 seasnail <- read.csv("~/praccomp2024/Praccomp2024/tidydata_SeaSnail_2024.csv")
-seasnail
+#seasnail
 ```
 ## Checking to make sure each column variable is the correct type of data format.
 ```{r}
@@ -40,7 +45,7 @@ typeof(seasnail$no_blades_2)
 ```
 
 ```{r}
-seasnail
+#seasnail
 ```
 ## Adding tidyverse
 ```{r}
@@ -49,7 +54,7 @@ library(tidyverse)
 ```
 ## Removal of all fully empty columns
 ```{r}
-seasnail %>% dplyr::select(-blade1_length_cm_1, -blade2_length_cm_1, -blade3_length_cm_1, -blade4_length_cm_1, -blade5_length_cm_1, -blade1_length_cm_2, -blade2_length_cm_2, -blade3_length_cm_2, -blade4_length_cm_2, -blade5_length_cm_2, -no_blades_1, -no_blades_2, -tin_wt_g, -dry_filter_wt_g, -tin_dry_filter_wt_g, -wet_filter_wt_g, -tin_filter_epibiont_wt_g, -epibiont_biomass_mg, -foil_wt_g, -grass_quadrat_no)
+#seasnail %>% dplyr::select(-blade1_length_cm_1, -blade2_length_cm_1, -blade3_length_cm_1, -blade4_length_cm_1, -blade5_length_cm_1, -blade1_length_cm_2, -blade2_length_cm_2, -blade3_length_cm_2, -blade4_length_cm_2, -blade5_length_cm_2, -no_blades_1, -no_blades_2, -tin_wt_g, -dry_filter_wt_g, -tin_dry_filter_wt_g, -wet_filter_wt_g, -tin_filter_epibiont_wt_g, -epibiont_biomass_mg, -foil_wt_g, -grass_quadrat_no)
 ```
 
 ## Filtering 
@@ -66,7 +71,6 @@ seasnail_season_salinity
 ggplot(seasnail_season_salinity, aes(x = date, y = salinity_ppt, fill = season)) + 
          labs(x = "Date", y = "Salinity (ppt)", title = "Seasonal Salinity over Time") +
   geom_col(aes(color = season)) +
-  geom_smooth(method = "lm") +
   theme_linedraw() +
   facet_wrap( ~ site_id)
 ```
@@ -82,8 +86,7 @@ seasnail_season_watertemp
 ```{r}
 ggplot(seasnail_season_watertemp, aes(x = date, y = water_temp_C, fill = season)) +
   labs(x = "Date", y = "Water Temperature (C)", title = "Seasonal Water Temperature over Time") +
-  geom_point(aes(color = season)) +
-  geom_smooth(method = "lm", color="black", size=0.5) +
+  geom_col(aes(color = season)) +
   theme_linedraw() +
   facet_wrap( ~ site_id)
 ```
@@ -98,9 +101,9 @@ seasnail_season_airtemp
 ```{r}
 ggplot(seasnail_season_airtemp, aes(x = date, y = air_temp_C, fill = season)) +
   labs(x = "Date", y = "Air Temperature (C)", title = "Seasonal Air Temperature over Time") +
-  geom_point(aes(color = season)) +
-  geom_smooth(method = "lm", color="black", size=0.5)+
-  theme_linedraw()
+  geom_col(aes(color = season)) +
+  theme_linedraw()+
+  facet_wrap( ~ site_id)
 ```
 ### Filtering and plotting for comparing low tide height across all sites in all sample seasons: early summer, late summer, and fall
 ```{r}
@@ -113,9 +116,9 @@ seasnail_season_ltheight
 ```{r}
 ggplot(seasnail_season_ltheight, aes(x = date, y = lt_height_ft, fill = season)) +
   labs(x = "Date", y = "Low Tide Height (ft)", title = "Seasonal Low Tide Heights over Time") +
-  geom_point(aes(color = season)) +
-  geom_smooth(method = "lm", color="black", size=0.5)+
-  theme_linedraw()
+  geom_col(aes(color = season)) +
+  theme_linedraw()+
+  facet_wrap( ~ site_id)
 ```
 ### Filtering and plotting for comparing water depth across all sites in all sample seasons: early summer, late summer, and fall
 ```{r}
