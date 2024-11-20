@@ -81,6 +81,8 @@ Lastly, the following abiotic measurements were recorded using a YSI and transec
 
 ### RStudio Tidydata
 
+- 
 
 
-### For final output, see tidydata_SeaSnail_2024.Rmd
+### For final output, see tidydata_SeaSnail_2024_NEW.Rmd
+### For final visual output, see tidydata_SeaSnail_2024.knit.pdf
