@@ -81,8 +81,34 @@ Lastly, the following abiotic measurements were recorded using a YSI and transec
 
 ### RStudio Tidydata
 
-1 Identify working directory and import data file tidydata_SeaSnail_2024.csv
-2 hello
+- Identify working directory and import data file tidydata_SeaSnail_2024.csv
+- Create a new variable "seasnail <-" to represent the entrire dataset
+- Use typeof command to identify each variable's mode and identify when what variable modes would need to be changed upon future filtering
+- str command to visualize all 43 variables as a list for seasnail
+- Pulled tidyverse from library
+- Piping R to read left to right when using dplyr::select
+- Use dplyr::select to subset variable columns in the seasnail dataset, removing all columns completely empty and do not contain data
+- (-) symnbol in front of each column name to remove it from the new subset
+- Create new variables based on the subset created with piping between dplyr::select and filter
+    - seasnail_season_salinity
+        - Comparing salinity across all sites and seasons, so need to include site_id, date, season, and salinity_ppt
+        - Mutate command on date to change its mode to ymd(date) instead of "integer"
+        - Filter command (!is.na) to remove all rows that did not include salinity measurements (had N/A)
+- Repeat creation of new variables, piping, dplyr::select, mutate, and filter for remaining comparisons
+    - seasnail_season_watertemp
+    - seasnail_season_airtemp
+    - seasnail_season_ltheight
+    - seasnail_season_waterdepth
+- Create histograms and a general linear model using ggplot
+- ggplot each variable using X axis always as Date, fill always as season, and Y axis as the changing measurable variable
+    - Axis labels and title created with labs command
+    - geom_col or geom_point command used to show distribution of data
+    - theme_linedraw command used to visualize data distribution with gridlines and simple axes
+    - facet_wrap ( ~ site_id) to show differences of each variable across site and season
+    - seasnail_season_waterdepth used geom_point and geom_smooth
+        - geom_point assigns color per season and the data correlating with each season by date
+        - geom_smooth for the GLM and confidence intervals across each season
+            - method = "lm"
 
 ### For final output, see tidydata_SeaSnail_2024_NEW.Rmd
 ### For final visual output, see tidydata_SeaSnail_2024.knit.pdf
