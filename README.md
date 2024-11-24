@@ -129,6 +129,6 @@ Create general linear models between parasite prevalence and an abiotic variable
             - above parameters set in specific to which abitic variable being analyzed
         - created "model" variables to calculate statistic summaries
 
-        
-### For final output, see tidydata_SeaSnail_2024_NEW.Rmd
+
+### For final output, see tidydata_SeaSnail_2024_proposal.Rmd
 ### For final visual output, see tidydata_SeaSnail_2024.knit.pdf
