@@ -550,7 +550,9 @@ ggplot(data=gapminder, mapping = aes(x=year, y=lifeExp, by=country)) + geom_line
 
 
 ```{r}
-ggplot(data = gapminder, mapping = aes(x=gdpPercap, y=lifeExp)) + geom_point(aes(color="darkblue"), alpha=0.25) + scale_x_log10() + geom_smooth(method = lm, color="deeppink", fill="chartreuse") + theme_classic()
+(model2<- ggplot(data = gapminder, mapping = aes(x=gdpPercap, y=lifeExp)) + geom_point(aes(color="darkblue"), alpha=0.25) + scale_x_log10() + geom_smooth(method = lm, color="deeppink", fill="chartreuse") + theme_classic())
+
+summary(model2)
 ```
 ```{r}
 ggplot(data = gapminder, mapping = aes(x=gdpPercap, y=lifeExp)) + 

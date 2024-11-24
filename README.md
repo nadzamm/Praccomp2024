@@ -85,7 +85,7 @@ Lastly, the following abiotic measurements were recorded using a YSI and transec
 - Create a new variable "seasnail <-" to represent the entrire dataset
 - Use typeof command to identify each variable's mode and identify when what variable modes would need to be changed upon future filtering
 - str command to visualize all 43 variables as a list for seasnail
-- Pulled tidyverse from library
+- Pulled tidyverse, ggplot, ggExtra, ggstatsplot, paletteer, and statsExpressions from library
 - Piping R to read left to right when using dplyr::select
 - Use dplyr::select to subset variable columns in the seasnail dataset, removing all columns completely empty and do not contain data
 - (-) symnbol in front of each column name to remove it from the new subset
@@ -99,16 +99,36 @@ Lastly, the following abiotic measurements were recorded using a YSI and transec
     - seasnail_season_airtemp
     - seasnail_season_ltheight
     - seasnail_season_waterdepth
-- Create histograms and a general linear model using ggplot
+- Create histograms and scatter plots using ggplot, followed by saving images of each graph
 - ggplot each variable using X axis always as Date, fill always as season, and Y axis as the changing measurable variable
     - Axis labels and title created with labs command
     - geom_col or geom_point command used to show distribution of data
-    - theme_linedraw command used to visualize data distribution with gridlines and simple axes
+    - theme_ggstatsplot() + scale_colour_paletteer_d
+        - used to visualize data distribution with gridlines and simple axes
     - facet_wrap ( ~ site_id) to show differences of each variable across site and season
+        - only on the histograms
     - seasnail_season_waterdepth used geom_point and geom_smooth
         - geom_point assigns color per season and the data correlating with each season by date
         - geom_smooth for the GLM and confidence intervals across each season
-            - method = "lm"
+    - scale_x_date(date_breaks = "1 month", date_labels = "%b")
+    - scale_y_continuous(limits = c(15,35))
+        - both used to adjust x and y axes to specifically read the value ranges we want
 
+Create general linear models between parasite prevalence and an abiotic variable
+- water temperature
+- salinity
+
+- Made new datasheets and new variables, deriving from the original data csv file: seasnail
+    - filter and mutate again to remove rows with N/a
+    - each plot created with:
+        - geom_smooth(method='lm', se=TRUE)
+        - geom_point(aes(color = site_id), size=3)
+        - theme_ggstatsplot() 
+        - labs
+        -  theme(plot.title), theme(legend.position=), scale_colour_paletteer_d("MetBrewer::Hiroshige"), and scale_y_continuous(limits = c())
+            - above parameters set in specific to which abitic variable being analyzed
+        - created "model" variables to calculate statistic summaries
+
+        
 ### For final output, see tidydata_SeaSnail_2024_NEW.Rmd
 ### For final visual output, see tidydata_SeaSnail_2024.knit.pdf
