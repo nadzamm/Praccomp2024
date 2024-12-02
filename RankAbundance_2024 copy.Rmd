@@ -1,0 +1,321 @@
+---
+title: "Untitled"
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+date: "2024-11-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "/Users/meghannadzam/Desktop/Datasets and Figs/Rank abundance curves 2024")
+```
+
+```{r}
+getwd()
+```
+
+
+```{r}
+library(tidyverse)
+library(vegan)
+library(ggplot2)
+
+ra_earlysumENV <- read.csv(file = "seasnail_2024_ra_earlysum_ENV.csv")
+ra_earlysum <- read.csv(file = "seasnail_2024_ra_earlysum.csv")
+ra_earlysumENV$site_id <- as.factor(ra_earlysumENV$site_id)
+ra_earlysum2 <- ra_earlysum %>% dplyr::select(AV, DN, GA, HQ, LS, PM, SD, ST, ZL) %>%
+  filter(!is.na(AV))
+ra_earlysum2
+```
+
+
+```{r}
+ra_earlysumENV$date <- ymd(ra_earlysumENV$date)
+
+ra_earlysumENV2 <- ra_earlysumENV %>%
+  mutate(date = lubridate::floor_date(date, unit = "month")) %>%
+  mutate(date = as.factor(date)) %>%
+  mutate(season = "earlysummer") %>%
+  mutate(season = as.factor(season))
+
+ra_earlysumENV2
+```
+
+```{r}
+#install.packages("BiodiversityR", dependencies = TRUE)
+#install.packages("XQuartz")
+#install.packages("import")
+#install.packages("tcltk")
+
+library(BiodiversityR)
+
+```
+
+```{r}
+RA.date.data <- BiodiversityR::rankabuncomp(ra_earlysum2, y=ra_earlysumENV2, factor = "date", return.data=TRUE, specnames=c(1:10), legend=FALSE)
+```
+
+```{r}
+#install.packages("ggrepel")
+#install.packages("ggThemeAssist")
+library(ggrepel)
+library(ggThemeAssist)
+
+BioR.theme <- theme(
+panel.background = element_blank(),
+panel.border = element_blank(),
+panel.grid = element_blank(),
+axis.line = element_line("black"),
+#text = element_text(size = 12, family="Arial"),
+axis.text = element_text(size = 10, colour = "black"),
+axis.title = element_text(size = 14, colour = "black"),
+legend.title = element_text(size = 14),
+legend.text = element_text(size = 14),
+legend.key = element_blank()) +
+    theme(legend.position="none")
+
+```
+
+```{r}
+RA.season.data <- BiodiversityR::rankabundance(ra_earlysum2, y=ra_earlysumENV2, factor="season", level="earlysummer")
+
+RA.season.data
+```
+
+```{r}
+plotgg1 <- ggplot(data=RA.season.data, aes(x = rank, y = abundance)) + 
+    scale_x_continuous(expand=c(0, 1), sec.axis = dup_axis(labels=NULL, name= NULL)) +
+    scale_y_continuous(expand=c(0, 1), sec.axis = dup_axis(labels=NULL, name=NULL)) +
+    geom_line(aes(color= "purple"), linewidth=1) +
+    geom_point(aes(color="purple"), size=5, alpha=0.7) +
+    geom_text_repel(data=subset(RA.season.data), 
+        aes(label=row.names(RA.season.data)), 
+        angle=45, nudge_x=1, nudge_y=1, show.legend=FALSE) +
+    BioR.theme +
+    scale_color_brewer(palette = "Set1") +
+    labs(x = "Rank", y = "Abundance", title = "Rank Abundance: Early Summer 2024") +
+  scale_color_manual(values = c("purple"))
+
+plotgg1
+```
+
+```{r}
+ra_latesumENV <- read.csv(file = "seasnail_2024_ra_latesum_ENV.csv")
+ra_latesum <- read.csv(file = "seasnail_2024_ra_latesum.csv")
+ra_latesumENV$site_id <- as.factor(ra_latesumENV$site_id)
+ra_latesum2 <- ra_latesum %>% dplyr::select(AV, DN, GA, HQ, LS, PM, SD, ST, ZL) %>%
+  filter(!is.na(AV))
+ra_latesumENV2 <- ra_latesumENV %>% dplyr::select(site_id, date, salinity_ppt, water_temp_C) %>%
+  filter(!is.na(date))
+ra_latesum2
+ra_latesumENV2
+
+```
+
+```{r}
+ra_latesumENV2$date <- ymd(ra_latesumENV2$date)
+
+ra_latesumENV3 <- ra_latesumENV2 %>%
+  mutate(date = lubridate::floor_date(date, unit = "month")) %>%
+  mutate(date = as.factor(date)) %>%
+  mutate(season = "latesummer") %>%
+  mutate(season = as.factor(season))
+
+ra_latesumENV3
+```
+```{r}
+BioR.theme <- theme(
+panel.background = element_blank(),
+panel.border = element_blank(),
+panel.grid = element_blank(),
+axis.line = element_line("black"),
+#text = element_text(size = 12, family="Arial"),
+axis.text = element_text(size = 10, colour = "black"),
+axis.title = element_text(size = 14, colour = "black"),
+legend.title = element_text(size = 14),
+legend.text = element_text(size = 14),
+legend.key = element_blank()) +
+    theme(legend.position="none")
+```
+
+```{r}
+RA.season.data2 <- BiodiversityR::rankabundance(ra_latesum2, y=ra_latesumENV3, factor="season", level="latesummer")
+
+RA.season.data2
+```
+```{r}
+plotgg2 <- ggplot(data=RA.season.data2, aes(x = rank, y = abundance)) + 
+    scale_x_continuous(expand=c(0, 1), sec.axis = dup_axis(labels=NULL, name= NULL)) +
+    scale_y_continuous(expand=c(0, 1), sec.axis = dup_axis(labels=NULL, name=NULL)) +
+    geom_line(aes(color= "darkorange"), size=1) +
+    geom_point(aes(color="darkorange"), size=5, alpha=0.7) +
+    geom_text_repel(data=subset(RA.season.data2), 
+        aes(label=row.names(RA.season.data2)), 
+        angle=45, nudge_x=1, nudge_y=1, show.legend=FALSE) +
+    BioR.theme +
+    scale_color_brewer(palette = "Set1") +
+    labs(x = "Rank", y = "Abundance", title = "Rank Abundance: Late Summer 2024") +
+  scale_color_manual(values = c("darkorange"))
+
+plotgg2
+```
+```{r}
+ra_fallENV <- read.csv(file = "seasnail_2024_ra_fall_ENV.csv")
+ra_fall <- read.csv(file = "seasnail_2024_ra_fall_2.csv")
+ra_fallENV$site_id <- as.factor(ra_fallENV$site_id)
+ra_fall2 <- ra_fall %>% dplyr::select(AV, DN, GA, HQ, LS, PM, SD, ST, ZL) %>%
+  filter(!is.na(AV))
+ra_fallENV2 <- ra_fallENV %>% dplyr::select(site_id, date, salinity_ppt, water_temp_C) %>%
+  filter(!is.na(date))
+ra_fall2
+ra_latesumENV2
+```
+
+```{r}
+ra_fallENV2$date <- ymd(ra_fallENV2$date)
+
+ra_fallENV3 <- ra_fallENV2 %>%
+  mutate(date = lubridate::floor_date(date, unit = "month")) %>%
+  mutate(date = as.factor(date)) %>%
+  mutate(season = "latesummer") %>%
+  mutate(season = as.factor(season))
+
+ra_fallENV3
+```
+
+```{r}
+BioR.theme <- theme(
+panel.background = element_blank(),
+panel.border = element_blank(),
+panel.grid = element_blank(),
+axis.line = element_line("black"),
+#text = element_text(size = 12, family="Arial"),
+axis.text = element_text(size = 10, colour = "black"),
+axis.title = element_text(size = 14, colour = "black"),
+legend.title = element_text(size = 14),
+legend.text = element_text(size = 14),
+legend.key = element_blank()) +
+    theme(legend.position="none")
+```
+
+```{r}
+RA.season.data3 <- BiodiversityR::rankabundance(ra_fall2, y=ra_fallENV3, factor="season", level="latesummer")
+
+RA.season.data3
+```
+```{r}
+plotgg3 <- ggplot(data=RA.season.data3, aes(x = rank, y = abundance)) + 
+    scale_x_continuous(expand=c(0, 1), sec.axis = dup_axis(labels=NULL, name= NULL)) +
+    scale_y_continuous(expand=c(0, 1), sec.axis = dup_axis(labels=NULL, name=NULL)) +
+    geom_line(aes(color= "darkgreen"), size=1) +
+    geom_point(aes(color="darkgreen"), size=5, alpha=0.7) +
+    geom_text_repel(data=subset(RA.season.data3), 
+        aes(label=row.names(RA.season.data3)), 
+        angle=0, nudge_x=1, nudge_y=1, show.legend=FALSE) +
+    BioR.theme +
+    scale_color_brewer(palette = "Set1") +
+    labs(x = "Rank", y = "Abundance", title = "Rank Abundance: Fall 2024") +
+  scale_color_manual(values = c("darkgreen"))
+
+plotgg3
+```
+```{r}
+plotgg1
+plotgg2
+plotgg3
+```
+```{r}
+#install.packages("patchwork")
+```
+```{r}
+library(patchwork)
+```
+```{r, fig.width=20, fig.height=6,}
+plotgg1 + plotgg2 + plotgg3
+```
+### PKS rank curve
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "/Users/meghannadzam/Desktop/Datasets and Figs/Rank abundance curves 2024")
+```
+
+```{r}
+
+
+ra_PKSENV <- read.csv(file = "seasnail_2024_ra_PKS_ENV.csv")
+ra_PKS <- read.csv(file = "seasnail_2024_ra_PKS.csv")
+ra_PKSENV$site_id <- as.factor(ra_PKSENV$site_id)
+ra_PKS2 <- ra_PKS %>% dplyr::select(AV, DN, GA, HQ, LS, PM, SD, ST, ZL) %>%
+  filter(!is.na(AV))
+ra_PKS2
+```
+
+```{r}
+ra_PKSENV$date <- ymd(ra_PKSENV$date)
+
+ra_PKSENV2 <- ra_PKSENV %>%
+  mutate(date = lubridate::floor_date(date, unit = "month")) %>%
+  mutate(date = as.factor(date))%>%
+  filter(!is.na(date))
+ra_PKSENV3 <- ra_PKSENV2 %>% dplyr::select(site_id, date, salinity_ppt, water_temp_C) %>%
+  filter(!is.na(date))
+
+ra_PKSENV3
+```
+
+```{r}
+BioR.theme <- theme(
+panel.background = element_blank(),
+panel.border = element_blank(),
+panel.grid = element_blank(),
+axis.line = element_line("black"),
+#text = element_text(size = 12, family="Arial"),
+axis.text = element_text(size = 10, colour = "black"),
+axis.title = element_text(size = 14, colour = "black"),
+legend.title = element_text(size = 14),
+legend.text = element_text(size = 14),
+legend.key = element_blank()) +
+    theme(legend.position="none")
+```
+
+```{r}
+RA.siteid.data2 <- BiodiversityR::rankabundance(ra_PKS2, y=ra_PKSENV3, factor="site_id", level="PKS")
+
+RA.siteid.data2
+```
+
+```{r}
+plotgg4 <- ggplot(data=RA.siteid.data2, aes(x = rank, y = abundance)) + 
+    scale_x_continuous(expand=c(0, 1), sec.axis = dup_axis(labels=NULL, name= NULL)) +
+    scale_y_continuous(expand=c(0, 1), sec.axis = dup_axis(labels=NULL, name=NULL)) +
+    geom_line(aes(color= "darkturquoise"), size=1) +
+    geom_point(aes(color="darkturquoise"), size=5, alpha=0.7) +
+    geom_text_repel(data=subset(RA.siteid.data2), 
+        aes(label=row.names(RA.siteid.data2)), 
+        angle=0, nudge_x=1, nudge_y=1, show.legend=FALSE) +
+    BioR.theme +
+    scale_color_brewer(palette = "Set1") +
+    labs(x = "Rank", y = "Abundance", title = "Rank Abundance: Pine Knoll Shores 2024") +
+  scale_color_manual(values = c("darkturquoise"))
+
+plotgg4
+```
+```{r}
+ggplot2::ggsave("Datasets and Figs/plotgg4.png", create.dir = TRUE)
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
