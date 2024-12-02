@@ -128,7 +128,20 @@ Create general linear models between parasite prevalence and an abiotic variable
         -  theme(plot.title), theme(legend.position=), scale_colour_paletteer_d("MetBrewer::Hiroshige"), and scale_y_continuous(limits = c())
             - above parameters set in specific to which abitic variable being analyzed
         - created "model" variables to calculate statistic summaries
+     
+Create Rank abundance curves for all parasite species abundance across each season in 2024 and then specifically in Pine Knoll Shores
+    - create new data CSV files with all necessary data
+    - filter and mutate each season's data CSV files to remove rows and columns with N/a's
+    - create date and season as factors
+    - installing new packages "BiodiversityR", "ggrepel" and new themes to create the rank abundance curves
+    - use "patchwork" package to form a figure for my thesis propsal
+    - PKS curve
+        - same filtering of new data CSV files, but only creating the factor for date and now site_id
+            - site is the same across all abundances quantified
+        - is a comprehensive curve of parasite abundance across all seasons in 2024, so no seasonal factor is needed
 
 
 ### For final output, see tidydata_SeaSnail_2024_proposal.Rmd
 ### For final visual output, see tidydata_SeaSnail_2024_proposal.pdf
+### For final rank curve output, see RankAbundance_2024 copy.Rmd
+### For final rank curve visual output, see RankAbundance_2024 copy.pdf
