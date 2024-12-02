@@ -128,7 +128,7 @@ Create general linear models between parasite prevalence and an abiotic variable
         -  theme(plot.title), theme(legend.position=), scale_colour_paletteer_d("MetBrewer::Hiroshige"), and scale_y_continuous(limits = c())
             - above parameters set in specific to which abitic variable being analyzed
         - created "model" variables to calculate statistic summaries
-     
+
 Create Rank abundance curves for all parasite species abundance across each season in 2024 and then specifically in Pine Knoll Shores
     - create new data CSV files with all necessary data
     - filter and mutate each season's data CSV files to remove rows and columns with N/a's
